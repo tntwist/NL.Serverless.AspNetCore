@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <PackageVersion>1.0</PackageVersion>
+    <PackageId>NL.Serverless.AspNetCore.Template</PackageId>
+    <Title>Serverless AspNet Core Template</Title>
+    <Authors>Nico Lachmuth</Authors>
+    <Description>Template to use when creating a new AspNet Core application hosted inside an Azure Functions V2 HTTP Trigger.</Description>
+    <PackageTags>dotnet-new;templates;aspnet-core;azure</PackageTags>
+    <TargetFramework>netstandard2.0</TargetFramework>
+
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include=".template.config\**\*"/>    
+    <Content Include="src\NL.Serverless.AspNetCore.sln"/>
+    <Content Include="src\NL.Serverless.AspNetCore.FunctionApp\**\*" Exclude="src\NL.Serverless.AspNetCore.FunctionApp\**\bin\**;src\NL.Serverless.AspNetCore.FunctionApp\**\obj\**" />
+    <Content Include="src\NL.Serverless.AspNetCore.WebApp\**\*" Exclude="src\NL.Serverless.AspNetCore.WebApp\**\bin\**;src\NL.Serverless.AspNetCore.WebApp\**\obj\**" />
+    <Compile Remove="**\*" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Nico Lachmuth",
+    "classifications": [
+        "Azure",
+        "Web",
+        "Serverless"
+    ],
+    "name": "Serverless AspNet Core Azure Function App",
+    "identity": "NL.Serverless.AspNetCore.CSharp",
+    "groupIdentity": "NL.Serverless.AspNetCore.",
+    "shortName": "serverless-aspnetcore",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "sourceName": "NL.Serverless.AspNetCore",
+    "preferNameDirectory": true,
+    "primaryOutputs": [
+        {
+            "path": "src/NL.Serverless.AspNetCore.FunctionApp/NL.Serverless.AspNetCore.FunctionApp.csproj"
+        },
+        {
+            "path": "src/NL.Serverless.AspNetCore.WebApp/NL.Serverless.AspNetCore.WebApp.csproj"
+        }
+    ]
+}
