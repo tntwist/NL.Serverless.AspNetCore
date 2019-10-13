@@ -13,11 +13,17 @@
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
+    <Copyright>Nico Lachmuth ©2019</Copyright>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageProjectUrl>https://github.com/tntwist/NL.Serverless.AspNetCore</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIconUrl>https://avatars1.githubusercontent.com/u/6589385?s=400&amp;u=96994306a87b88973443ecf524ebbbb764b776de&amp;v=4</PackageIconUrl>
+    <RepositoryUrl>https://github.com/tntwist/NL.Serverless.AspNetCore</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include=".template.config\**\*"/>    
-    <Content Include="src\NL.Serverless.AspNetCore.sln"/>
+    <Content Include=".template.config\**\*" />    
+    <Content Include="src\NL.Serverless.AspNetCore.sln" />
     <Content Include="src\NL.Serverless.AspNetCore.FunctionApp\**\*" Exclude="src\NL.Serverless.AspNetCore.FunctionApp\**\bin\**;src\NL.Serverless.AspNetCore.FunctionApp\**\obj\**" />
     <Content Include="src\NL.Serverless.AspNetCore.WebApp\**\*" Exclude="src\NL.Serverless.AspNetCore.WebApp\**\bin\**;src\NL.Serverless.AspNetCore.WebApp\**\obj\**" />
     <Compile Remove="**\*" />
