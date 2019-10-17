@@ -33,6 +33,9 @@ func host start -build
 ```
 After you started the function app you can attach the Visual Studio Debugger to the func.exe and start debugging your code in Visual Studio.
 
+## Samples
+[Host the ASP.NET Boilerplate sample in an Azure Function](samples/ASP.NET%20Boilerplate)
+
 ## Credits
 Most of the code is copy pasta from this repo:
 https://github.com/NicklausBrain/serverless-core-api
