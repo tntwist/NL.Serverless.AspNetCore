@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NL.Serverless.AspNetCore.FunctionApp
 {
@@ -31,8 +32,11 @@ namespace NL.Serverless.AspNetCore.FunctionApp
 
             try
             {
-                req.HttpContext.RequestServices = _serviceProvider.ServiceProvider;
-                await _requestDelegate(req.HttpContext);
+                using (var scope = _serviceProvider.ServiceProvider.CreateScope())
+                {
+                    req.HttpContext.RequestServices = scope.ServiceProvider;
+                    await _requestDelegate(req.HttpContext);
+                }
             }
             catch (Exception e) 
             {
