@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.ObjectPool;
 using NL.Serverless.AspNetCore.FunctionApp;
 using System;
 using System.Diagnostics;
+using System.IO;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace NL.Serverless.AspNetCore.FunctionApp
@@ -28,15 +30,21 @@ namespace NL.Serverless.AspNetCore.FunctionApp
 
             var config = configRoot.GetWebJobsRootConfiguration();
 
+            var currentDirectory = Environment.CurrentDirectory;
+            var webRootPath = Path.Combine(currentDirectory, "wwwroot");
             var hostingEnv = new HostingEnvironment()
             {
-                ContentRootPath = Environment.CurrentDirectory
+                ContentRootPath = currentDirectory,
+                WebRootPath = webRootPath,
+                ContentRootFileProvider = new PhysicalFileProvider(currentDirectory),
+                WebRootFileProvider = new PhysicalFileProvider(webRootPath)
             };
 
             // configure services for web app.
             var webAppServices = new ServiceCollection();
             webAppServices.AddSingleton<DiagnosticSource>(new DiagnosticListener("Microsoft.AspNetCore"));
             webAppServices.AddSingleton<ObjectPoolProvider>(new DefaultObjectPoolProvider());
+            webAppServices.AddSingleton<IApplicationLifetime, ApplicationLifetime>();
             webAppServices.AddSingleton<IHostingEnvironment>(hostingEnv);
             webAppServices.AddSingleton(config);
 
