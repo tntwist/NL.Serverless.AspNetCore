@@ -22,7 +22,7 @@ namespace NL.Serverless.AspNetCore.WebApp
             services.AddLogging();
 
             services.AddMvc()
-                .AddApplicationPart(Assembly.Load(typeof(Startup).Assembly.GetName()));
+                .AddApplicationPart(typeof(Startup).Assembly);
 
             services.AddSwaggerDocument();
         }
