@@ -1,6 +1,5 @@
 ﻿using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder.Internal;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
@@ -14,7 +13,6 @@ using MyCompany.MyProject.Web.FunctionApp;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace MyCompany.MyProject.Web.FunctionApp
@@ -79,6 +77,19 @@ namespace MyCompany.MyProject.Web.FunctionApp
             catch (Exception e)
             {
                 Console.WriteLine(e);
+
+                // log exception to app insights if instrumentation key is available.
+                var appInsightsInstrumentationKey = Environment.GetEnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY", EnvironmentVariableTarget.Process);
+                if (!string.IsNullOrWhiteSpace(appInsightsInstrumentationKey)) 
+                {
+                    #pragma warning disable CS0618 // Type or member is obsolete
+                    var telemetryClient = new TelemetryClient { InstrumentationKey = appInsightsInstrumentationKey };
+                    #pragma warning restore CS0618 // Type or member is obsolete
+
+                    telemetryClient.TrackException(e);
+                }
+
+                throw e;
             }
         }
     }
