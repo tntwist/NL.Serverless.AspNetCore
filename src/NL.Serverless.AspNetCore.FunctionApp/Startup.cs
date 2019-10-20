@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder.Internal;
+﻿using Microsoft.ApplicationInsights;
+using Microsoft.AspNetCore.Builder.Internal;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http.Features;
@@ -22,53 +23,77 @@ namespace NL.Serverless.AspNetCore.FunctionApp
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            // create config and hosting environment
-            var configRoot = new ConfigurationBuilder()
-               .SetBasePath(Environment.CurrentDirectory)
-               .AddEnvironmentVariables()
-               .Build();
-
-            var config = configRoot.GetWebJobsRootConfiguration();
-
-            var currentDirectory = Environment.CurrentDirectory;
-            var webRootPath = Path.Combine(currentDirectory, "wwwroot");
-            var hostingEnv = new HostingEnvironment()
+            try
             {
-                ContentRootPath = currentDirectory,
-                WebRootPath = webRootPath,
-                ContentRootFileProvider = new PhysicalFileProvider(currentDirectory),
-                WebRootFileProvider = new PhysicalFileProvider(webRootPath)
-            };
+                // get content and webroot path for the function app.
+                var assemblyPath = new DirectoryInfo(Path.GetDirectoryName(typeof(Startup).Assembly.Location));
+                var contentRootPath = assemblyPath.Parent.FullName;
+                var webRootPath = Path.Combine(contentRootPath, "wwwroot");
 
-            // configure services for web app.
-            var webAppServices = new ServiceCollection();
-            webAppServices.AddSingleton<DiagnosticSource>(new DiagnosticListener("Microsoft.AspNetCore"));
-            webAppServices.AddSingleton<ObjectPoolProvider>(new DefaultObjectPoolProvider());
-            webAppServices.AddSingleton<IApplicationLifetime, ApplicationLifetime>();
-            webAppServices.AddSingleton<IHostingEnvironment>(hostingEnv);
-            webAppServices.AddSingleton(config);
+                // create config and hosting environment
+                var configRoot = new ConfigurationBuilder()
+                   .SetBasePath(Environment.CurrentDirectory)
+                   .AddEnvironmentVariables()
+                   .Build();
 
-            // startup webapp
-            var webAppStartUp = new WebApp.Startup(config);
-            webAppStartUp.ConfigureServices(webAppServices);
+                var config = configRoot.GetWebJobsRootConfiguration();
 
-            var serviceProvider = webAppServices.BuildServiceProvider();
-            var appBuilder = new ApplicationBuilder(serviceProvider, new FeatureCollection());
+                var hostingEnv = new HostingEnvironment()
+                {
+                    ContentRootPath = contentRootPath,
+                    WebRootPath = webRootPath,
+                    ContentRootFileProvider = new PhysicalFileProvider(contentRootPath),
+                    WebRootFileProvider = new PhysicalFileProvider(webRootPath)
+                };
 
-            webAppStartUp.Configure(appBuilder, hostingEnv);
+                // configure services for web app.
+                var webAppServices = new ServiceCollection();
+                webAppServices.AddSingleton<DiagnosticSource>(new DiagnosticListener("Microsoft.AspNetCore"));
+                webAppServices.AddSingleton<ObjectPoolProvider>(new DefaultObjectPoolProvider());
+                webAppServices.AddSingleton<IApplicationLifetime, ApplicationLifetime>();
+                webAppServices.AddSingleton<IHostingEnvironment>(hostingEnv);
 
-            // create request delegate from the configured app builder
-            var requestDelegate = appBuilder.Build();
+                // startup webapp
+                var webAppStartUp = new WebApp.Startup(configRoot);
+                webAppStartUp.ConfigureServices(webAppServices);
 
-            builder.Services.AddSingleton(requestDelegate);
+                var serviceProvider = webAppServices.BuildServiceProvider();
 
-            // create instance of WebApp ServiceProvider for resolving the service provider for the web app over DI.
-            var webAppServiceProvider = new WebAppServiceProvider
+                //var serviceProvider = webAppServices.BuildServiceProvider();
+                var appBuilder = new ApplicationBuilder(serviceProvider, new FeatureCollection());
+
+                webAppStartUp.Configure(appBuilder, hostingEnv);
+
+                // create request delegate from the configured app builder
+                var requestDelegate = appBuilder.Build();
+
+                builder.Services.AddSingleton(requestDelegate);
+
+                // create instance of WebApp ServiceProvider for resolving the service provider for the web app over DI.
+                var webAppServiceProvider = new WebAppServiceProvider
+                {
+                    ServiceProvider = serviceProvider
+                };
+
+                builder.Services.AddSingleton(webAppServiceProvider);
+            }
+            catch (Exception e)
             {
-                ServiceProvider = serviceProvider
-            };
+                Console.WriteLine(e);
 
-            builder.Services.AddSingleton(webAppServiceProvider);
+                // log exception to app insights if instrumentation key is available.
+                var appInsightsInstrumentationKey = Environment.GetEnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY", EnvironmentVariableTarget.Process);
+                if (!string.IsNullOrWhiteSpace(appInsightsInstrumentationKey))
+                {
+                    #pragma warning disable CS0618 // Type or member is obsolete
+                    var telemetryClient = new TelemetryClient { InstrumentationKey = appInsightsInstrumentationKey };
+                    #pragma warning restore CS0618 // Type or member is obsolete
+
+                    telemetryClient.TrackException(e);
+                }
+
+                throw e;
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
     <PackageId>NL.Serverless.AspNetCore.Template</PackageId>
     <Title>Serverless AspNet Core Template</Title>
     <Authors>Nico Lachmuth</Authors>

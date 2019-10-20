@@ -1,5 +1,4 @@
 ﻿using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Builder.Internal;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
@@ -26,16 +25,16 @@ namespace MyCompany.MyProject.Web.FunctionApp
         {
             try
             {
-                // create config and hosting environment
-                var configRoot = new ConfigurationBuilder()
-                   .SetBasePath(Environment.CurrentDirectory)
-                   .AddEnvironmentVariables()
-                   .Build();
-
                 // get content and webroot path for the function app.
                 var assemblyPath = new DirectoryInfo(Path.GetDirectoryName(typeof(Startup).Assembly.Location));
                 var contentRootPath = assemblyPath.Parent.FullName;
                 var webRootPath = Path.Combine(contentRootPath, "wwwroot");
+
+                // create config and hosting environment
+                var configRoot = new ConfigurationBuilder()
+                   .SetBasePath(contentRootPath)
+                   .AddEnvironmentVariables()
+                   .Build();
 
                 var hostingEnv = new HostingEnvironment()
                 {
