@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder.Internal;
+﻿using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.AspNetCore.Builder.Internal;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http.Features;
@@ -11,6 +14,7 @@ using MyCompany.MyProject.Web.FunctionApp;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace MyCompany.MyProject.Web.FunctionApp
@@ -30,13 +34,16 @@ namespace MyCompany.MyProject.Web.FunctionApp
                    .AddEnvironmentVariables()
                    .Build();
 
-                var currentDirectory = Environment.CurrentDirectory;
-                var webRootPath = Path.Combine(currentDirectory, "wwwroot");
+                // get content and webroot path for the function app.
+                var assemblyPath = new DirectoryInfo(Path.GetDirectoryName(typeof(Startup).Assembly.Location));
+                var contentRootPath = assemblyPath.Parent.FullName;
+                var webRootPath = Path.Combine(contentRootPath, "wwwroot");
+
                 var hostingEnv = new HostingEnvironment()
                 {
-                    ContentRootPath = currentDirectory,
+                    ContentRootPath = contentRootPath,
                     WebRootPath = webRootPath,
-                    ContentRootFileProvider = new PhysicalFileProvider(currentDirectory),
+                    ContentRootFileProvider = new PhysicalFileProvider(contentRootPath),
                     WebRootFileProvider = new PhysicalFileProvider(webRootPath)
                 };
 
@@ -71,7 +78,7 @@ namespace MyCompany.MyProject.Web.FunctionApp
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine(e);
             }
         }
     }
