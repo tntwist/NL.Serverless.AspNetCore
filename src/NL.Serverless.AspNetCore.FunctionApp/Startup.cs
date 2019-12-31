@@ -1,12 +1,13 @@
 ﻿using Microsoft.ApplicationInsights;
-using Microsoft.AspNetCore.Builder.Internal;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.ObjectPool;
 using NL.Serverless.AspNetCore.FunctionApp;
 using System;
@@ -38,20 +39,22 @@ namespace NL.Serverless.AspNetCore.FunctionApp
 
                 var config = configRoot.GetWebJobsRootConfiguration();
 
-                var hostingEnv = new HostingEnvironment()
+                var hostingEnv = new FunctionAppHostingEnvironment()
                 {
                     ContentRootPath = contentRootPath,
                     WebRootPath = webRootPath,
                     ContentRootFileProvider = new PhysicalFileProvider(contentRootPath),
-                    WebRootFileProvider = new PhysicalFileProvider(webRootPath)
+                    WebRootFileProvider = new PhysicalFileProvider(webRootPath),
+                    ApplicationName = typeof(WebApp.Startup).Assembly.FullName,
+                    EnvironmentName = Environments.Development
                 };
 
                 // configure services for web app.
                 var webAppServices = new ServiceCollection();
                 webAppServices.AddSingleton<DiagnosticSource>(new DiagnosticListener("Microsoft.AspNetCore"));
                 webAppServices.AddSingleton<ObjectPoolProvider>(new DefaultObjectPoolProvider());
-                webAppServices.AddSingleton<IApplicationLifetime, ApplicationLifetime>();
-                webAppServices.AddSingleton<IHostingEnvironment>(hostingEnv);
+                webAppServices.AddSingleton<IHostApplicationLifetime, ApplicationLifetime>();
+                webAppServices.AddSingleton<IWebHostEnvironment>(hostingEnv);
 
                 // startup webapp
                 var webAppStartUp = new WebApp.Startup(configRoot);
