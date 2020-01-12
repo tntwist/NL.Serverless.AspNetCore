@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCompany.MyProject.Web.Hos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCompany.MyProject.Web.Core", "src\MyCompany.MyProject.Web.Core\MyCompany.MyProject.Web.Core.csproj", "{22CFE0D2-8DCA-42D7-AD7D-784C3862493F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCompany.MyProject.EntityFrameworkCore", "src\MyCompany.MyProject.EntityFrameworkCore\MyCompany.MyProject.EntityFrameworkCore.csproj", "{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCompany.MyProject.EntityFrameworkCore", "src\MyCompany.MyProject.EntityFrameworkCore\MyCompany.MyProject.EntityFrameworkCore.csproj", "{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCompany.MyProject.Web.FunctionApp", "src\MyCompany.MyProject.Web.FunctionApp\MyCompany.MyProject.Web.FunctionApp.csproj", "{7B16D718-963D-4FAA-BE94-D801BB7E9187}"
 EndProject

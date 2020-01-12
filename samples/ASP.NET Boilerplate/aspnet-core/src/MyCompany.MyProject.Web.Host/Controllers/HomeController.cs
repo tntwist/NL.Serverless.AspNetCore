@@ -4,6 +4,7 @@ using Abp;
 using Abp.Extensions;
 using Abp.Notifications;
 using Abp.Timing;
+using Abp.Web.Security.AntiForgery;
 using MyCompany.MyProject.Controllers;
 
 namespace MyCompany.MyProject.Web.Host.Controllers
