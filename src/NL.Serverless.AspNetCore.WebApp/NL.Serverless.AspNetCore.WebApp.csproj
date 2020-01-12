@@ -11,4 +11,11 @@
     <PackageReference Include="NSwag.AspNetCore" Version="13.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\**\*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

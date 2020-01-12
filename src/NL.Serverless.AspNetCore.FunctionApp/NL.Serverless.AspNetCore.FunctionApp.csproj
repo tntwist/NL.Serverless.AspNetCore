@@ -14,10 +14,6 @@
     <ProjectReference Include="..\NL.Serverless.AspNetCore.WebApp\NL.Serverless.AspNetCore.WebApp.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="wwwroot\**\*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </None>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

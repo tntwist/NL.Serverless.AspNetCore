@@ -44,6 +44,8 @@ namespace NL.Serverless.AspNetCore.WebApp
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseEndpoints(options => 

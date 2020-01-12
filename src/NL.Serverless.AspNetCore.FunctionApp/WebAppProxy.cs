@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting;
 
 namespace NL.Serverless.AspNetCore.FunctionApp
 {
@@ -16,22 +14,13 @@ namespace NL.Serverless.AspNetCore.FunctionApp
     /// </summary>
     public class WebAppProxy
     {
-        private readonly IWebHost _server;
         private readonly RequestDelegate _requestDelegate;
+        private readonly WebAppServiceProvider _serviceProvider;
 
-        //private readonly RequestDelegate _requestDelegate;
-        //private readonly WebAppServiceProvider _serviceProvider;
-
-        //public WebAppProxy(RequestDelegate requestDelegate, WebAppServiceProvider serviceProvider)
-        //{
-        //    _requestDelegate = requestDelegate;
-        //    _serviceProvider = serviceProvider;
-        //}
-
-        public WebAppProxy(IWebHost server, RequestDelegate requestDelegate)
+        public WebAppProxy(RequestDelegate requestDelegate, WebAppServiceProvider serviceProvider)
         {
-            _server = server;
             _requestDelegate = requestDelegate;
+            _serviceProvider = serviceProvider;
         }
 
         [FunctionName("Function1")]
@@ -43,7 +32,7 @@ namespace NL.Serverless.AspNetCore.FunctionApp
 
             try
             {
-                using (var scope = _server.Services.CreateScope())
+                using (var scope = _serviceProvider.ServiceProvider.CreateScope())
                 {
                     req.HttpContext.RequestServices = scope.ServiceProvider;
                     await _requestDelegate(req.HttpContext);
