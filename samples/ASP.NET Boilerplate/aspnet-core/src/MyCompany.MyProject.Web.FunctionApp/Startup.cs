@@ -1,12 +1,13 @@
 ﻿using Microsoft.ApplicationInsights;
-using Microsoft.AspNetCore.Builder.Internal;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.ObjectPool;
 using MyCompany.MyProject.Web.FunctionApp;
 using System;
@@ -36,24 +37,32 @@ namespace MyCompany.MyProject.Web.FunctionApp
                    .AddEnvironmentVariables()
                    .Build();
 
-                var hostingEnv = new HostingEnvironment()
+                var config = configRoot.GetWebJobsRootConfiguration();
+
+                var hostingEnv = new FunctionAppHostingEnvironment()
                 {
                     ContentRootPath = contentRootPath,
                     WebRootPath = webRootPath,
                     ContentRootFileProvider = new PhysicalFileProvider(contentRootPath),
-                    WebRootFileProvider = new PhysicalFileProvider(webRootPath)
+                    WebRootFileProvider = new PhysicalFileProvider(webRootPath),
+                    ApplicationName = typeof(Host.Startup.Startup).Assembly.FullName,
+                    EnvironmentName = Environments.Development
                 };
 
                 // configure services for web app.
                 var webAppServices = new ServiceCollection();
-                webAppServices.AddSingleton<DiagnosticSource>(new DiagnosticListener("Microsoft.AspNetCore"));
+                var diagnosticSource = new DiagnosticListener(hostingEnv.ApplicationName);
+                webAppServices.AddSingleton<DiagnosticSource>(diagnosticSource);
+                webAppServices.AddSingleton(diagnosticSource);
                 webAppServices.AddSingleton<ObjectPoolProvider>(new DefaultObjectPoolProvider());
-                webAppServices.AddSingleton<IApplicationLifetime, ApplicationLifetime>();
-                webAppServices.AddSingleton<IHostingEnvironment>(hostingEnv);
+                webAppServices.AddSingleton<IHostApplicationLifetime, ApplicationLifetime>();
+                webAppServices.AddSingleton<IWebHostEnvironment>(hostingEnv);
+                webAppServices.AddSingleton<IConfiguration>(configRoot);
 
                 // startup webapp
                 var webAppStartUp = new Host.Startup.Startup(hostingEnv);
                 var serviceProvider = webAppStartUp.ConfigureServices(webAppServices);
+
 
                 //var serviceProvider = webAppServices.BuildServiceProvider();
                 var appBuilder = new ApplicationBuilder(serviceProvider, new FeatureCollection());
@@ -79,11 +88,11 @@ namespace MyCompany.MyProject.Web.FunctionApp
 
                 // log exception to app insights if instrumentation key is available.
                 var appInsightsInstrumentationKey = Environment.GetEnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY", EnvironmentVariableTarget.Process);
-                if (!string.IsNullOrWhiteSpace(appInsightsInstrumentationKey)) 
+                if (!string.IsNullOrWhiteSpace(appInsightsInstrumentationKey))
                 {
-                    #pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
                     var telemetryClient = new TelemetryClient { InstrumentationKey = appInsightsInstrumentationKey };
-                    #pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
 
                     telemetryClient.TrackException(e);
                 }
