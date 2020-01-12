@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <Version>1.0.2</Version>
+    <Version>3.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0.2</PackageVersion>
+    <PackageVersion>3.0.2</PackageVersion>
     <PackageId>NL.Serverless.AspNetCore.Template</PackageId>
     <Title>Serverless AspNet Core Template</Title>
     <Authors>Nico Lachmuth</Authors>
-    <Description>Template to use when creating a new AspNet Core application hosted inside an Azure Functions V2 HTTP Trigger.</Description>
+    <Description>Template to use when creating a new AspNet Core application hosted inside an Azure Functions V3 HTTP Trigger.</Description>
     <PackageTags>dotnet-new;templates;aspnet-core;azure</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
 
