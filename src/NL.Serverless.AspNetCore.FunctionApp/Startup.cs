@@ -51,10 +51,13 @@ namespace NL.Serverless.AspNetCore.FunctionApp
 
                 // configure services for web app.
                 var webAppServices = new ServiceCollection();
-                webAppServices.AddSingleton<DiagnosticSource>(new DiagnosticListener("Microsoft.AspNetCore"));
+                var diagnosticSource = new DiagnosticListener(hostingEnv.ApplicationName);
+                webAppServices.AddSingleton<DiagnosticSource>(diagnosticSource);
+                webAppServices.AddSingleton(diagnosticSource);
                 webAppServices.AddSingleton<ObjectPoolProvider>(new DefaultObjectPoolProvider());
                 webAppServices.AddSingleton<IHostApplicationLifetime, ApplicationLifetime>();
                 webAppServices.AddSingleton<IWebHostEnvironment>(hostingEnv);
+                webAppServices.AddSingleton<IConfiguration>(configRoot);
 
                 // startup webapp
                 var webAppStartUp = new WebApp.Startup(configRoot);

@@ -23,7 +23,7 @@ namespace NL.Serverless.AspNetCore.WebApp
             services.AddMvc()
                 .AddApplicationPart(typeof(Startup).Assembly);
 
-            services.AddSwaggerDocument();
+            services.AddOpenApiDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
