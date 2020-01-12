@@ -3,8 +3,6 @@ This sample demostrates how to use an Azure function to host the [ASP.NET Boiler
 
 Checkout the Function App Project located [here](aspnet-core/src/MyCompany.MyProject.Web.FunctionApp) to see how this works.
 
-Note that you have to add some application parts in the [Startup](aspnet-core/src/MyCompany.MyProject.Web.Host/Startup/Startup.cs#L39) of the Host WebApp.
-
 # Original Readme from [ASP.NET Boilerplate](https://aspnetboilerplate.com/Pages/Documents) 
 # Important
 
