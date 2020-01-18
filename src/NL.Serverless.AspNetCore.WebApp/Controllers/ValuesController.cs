@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace NL.Serverless.AspNetCore.WebApp.Controllers
 {
@@ -7,6 +8,13 @@ namespace NL.Serverless.AspNetCore.WebApp.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
+
+        public ValuesController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -18,7 +26,7 @@ namespace NL.Serverless.AspNetCore.WebApp.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            return _configuration.GetValue<string>("Value");
         }
 
         // POST api/values

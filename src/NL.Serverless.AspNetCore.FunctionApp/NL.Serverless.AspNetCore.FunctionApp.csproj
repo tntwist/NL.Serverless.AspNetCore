@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.2" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NL.Serverless.AspNetCore.AzureFunctionsHost\NL.Serverless.AspNetCore.AzureFunctionsHost.csproj" />
     <ProjectReference Include="..\NL.Serverless.AspNetCore.WebApp\NL.Serverless.AspNetCore.WebApp.csproj" />
   </ItemGroup>
   <ItemGroup>
