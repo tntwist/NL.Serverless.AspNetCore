@@ -23,6 +23,8 @@ namespace NL.Serverless.AspNetCore.WebApp
             services.AddMvc()
                 .AddApplicationPart(typeof(Startup).Assembly);
 
+            services.AddRazorPages();
+
             services.AddOpenApiDocument();
         }
 
@@ -51,6 +53,7 @@ namespace NL.Serverless.AspNetCore.WebApp
             app.UseEndpoints(options => 
             {
                 options.MapDefaultControllerRoute();
+                options.MapRazorPages();
             });
         }
     }
