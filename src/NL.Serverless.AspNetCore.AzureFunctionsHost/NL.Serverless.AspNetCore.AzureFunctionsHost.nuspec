@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>NL.Serverless.AspNetCore.AzureFunctionsHost</id>
+    <version>3.0.2</version>
+    <title>ASP.Net Core Host for Azure Functions v3</title>
+    <authors>Nico Lachmuth</authors>
+    <owners>Nico Lachmuth</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <projectUrl>https://github.com/tntwist/NL.Serverless.AspNetCore</projectUrl>
+    <iconUrl>https://avatars1.githubusercontent.com/u/6589385?s=400&amp;u=96994306a87b88973443ecf524ebbbb764b776de&amp;v=4</iconUrl>
+    <description>Host an ASP.Net Core application inside an Azure Functions V3 App.</description>
+    <copyright>Nico Lachmuth ©2020</copyright>
+    <tags>aspnet-core azure serverless cloud aspnet functions</tags>
+    <repository type="GIT" url="https://github.com/tntwist/NL.Serverless.AspNetCore" />
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="Microsoft.ApplicationInsights" version="2.12.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Mvc.NewtonsoftJson" version="3.1.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Azure.Functions.Extensions" version="1.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework=".NETCoreApp3.1">
+        <frameworkReference name="Microsoft.AspNetCore.App" />
+      </group>
+    </frameworkReferences>
+  </metadata>
+  <files>
+    <file src="$publishdir$netcoreapp3.1\NL.Serverless.AspNetCore.AzureFunctionsHost.dll" target="lib/netcoreapp3.1/NL.Serverless.AspNetCore.AzureFunctionsHost.dll" />
+    <file src="NL.Serverless.AspNetCore.AzureFunctionsHost.targets" target="build/netcoreapp3.1/NL.Serverless.AspNetCore.AzureFunctionsHost.targets" />
+  </files>
+</package>

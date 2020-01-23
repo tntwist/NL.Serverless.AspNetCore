@@ -17,6 +17,15 @@
     <RepositoryUrl>https://github.com/tntwist/NL.Serverless.AspNetCore</RepositoryUrl>
   </PropertyGroup>
 
+  <!-- Pack settings -->
+  <PropertyGroup>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <NuspecFile>NL.Serverless.AspNetCore.AzureFunctionsHost.nuspec</NuspecFile>
+    <IntermediatePackDir>$(MSBuildProjectDirectory)/bin/$(Configuration)/</IntermediatePackDir>
+    <PublishDir>$(IntermediatePackDir)$(TargetFramework)/</PublishDir>
+    <NuspecProperties>publishDir=$([MSBuild]::NormalizeDirectory($(IntermediatePackDir)))</NuspecProperties>
+  </PropertyGroup>
+
   <ItemGroup>
    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
