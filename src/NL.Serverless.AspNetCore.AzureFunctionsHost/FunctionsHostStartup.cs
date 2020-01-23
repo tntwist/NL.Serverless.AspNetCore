@@ -198,6 +198,11 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
 
             //add configuration.
             applicationServices.AddSingleton(config);
+
+            //Logging and options.
+            applicationServices.AddLogging();
+            applicationServices.AddOptions();
+
             return applicationServices;
         }
 
