@@ -1,11 +1,11 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using NL.Serverless.AspNetCore.AzureFunctionsHost;
 using System;
-using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace Your.New.ProjectName.FunctionApp
 {
@@ -14,13 +14,11 @@ namespace Your.New.ProjectName.FunctionApp
     /// </summary>
     public class WebAppProxy
     {
-        private readonly RequestDelegate _requestDelegate;
-        private readonly WebAppServiceProvider _serviceProvider;
+        private readonly IFunctionsRequestHandler _requestHandler;
 
-        public WebAppProxy(RequestDelegate requestDelegate, WebAppServiceProvider serviceProvider)
+        public WebAppProxy(IFunctionsRequestHandler requestHandler)
         {
-            _requestDelegate = requestDelegate;
-            _serviceProvider = serviceProvider;
+            _requestHandler = requestHandler;
         }
 
         [FunctionName("Function1")]
@@ -32,12 +30,7 @@ namespace Your.New.ProjectName.FunctionApp
 
             try
             {
-                using (var scope = _serviceProvider.ServiceProvider.CreateScope())
-                {
-                    req.HttpContext.RequestServices = scope.ServiceProvider;
-                    await _requestDelegate(req.HttpContext);
-                }
-
+                await _requestHandler.HandleRequestAsync(req);
             }
             catch (Exception e)
             {
