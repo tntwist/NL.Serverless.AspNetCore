@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NL.Serverless.AspNetCore.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NL.Serverless.AspNetCore.AzureFunctionsHost", "NL.Serverless.AspNetCore.AzureFunctionsHost\NL.Serverless.AspNetCore.AzureFunctionsHost.csproj", "{2044D75A-2550-4453-A039-F4A1AA73A671}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NL.Serverless.AspNetCore.Hosting", "NL.Serverless.AspNetCore.Hosting\NL.Serverless.AspNetCore.Hosting.csproj", "{1868DD23-A820-4C42-A553-7E5B6D98EC38}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{2044D75A-2550-4453-A039-F4A1AA73A671}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2044D75A-2550-4453-A039-F4A1AA73A671}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2044D75A-2550-4453-A039-F4A1AA73A671}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1868DD23-A820-4C42-A553-7E5B6D98EC38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1868DD23-A820-4C42-A553-7E5B6D98EC38}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1868DD23-A820-4C42-A553-7E5B6D98EC38}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1868DD23-A820-4C42-A553-7E5B6D98EC38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
