@@ -23,7 +23,7 @@ namespace NL.Serverless.AspNetCore.FunctionApp
 
         [FunctionName("Function1")]
         public  async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "put", "patch", "delete",  Route = "{*any}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "put", "patch", "delete", "options",  Route = "{*any}")] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("WebAppProxy processed a request.");

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NL.Serverless.AspNetCore.WebApp.Hubs;
 
 namespace NL.Serverless.AspNetCore.WebApp
 {
@@ -24,6 +25,17 @@ namespace NL.Serverless.AspNetCore.WebApp
                 .AddApplicationPart(typeof(Startup).Assembly);
 
             services.AddRazorPages();
+
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+            builder =>
+            {
+                builder.WithOrigins("http://localhost")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            }));
+
+            services.AddSignalR();
 
             services.AddOpenApiDocument();
         }
@@ -49,11 +61,13 @@ namespace NL.Serverless.AspNetCore.WebApp
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(options => 
             {
                 options.MapDefaultControllerRoute();
                 options.MapRazorPages();
+                options.MapHub<TestHub>("/testhub");
             });
         }
     }
