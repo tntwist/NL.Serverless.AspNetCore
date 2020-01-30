@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>3.0.2</PackageVersion>
+    <PackageVersion>3.0.3</PackageVersion>
     <PackageId>NL.Serverless.AspNetCore.Template</PackageId>
     <Title>Serverless AspNet Core Template</Title>
     <Authors>Nico Lachmuth</Authors>
@@ -23,9 +23,9 @@
 
   <ItemGroup>
     <Content Include=".template.config\**\*" />    
-    <Content Include="src\NL.Serverless.AspNetCore.sln" />
-    <Content Include="src\NL.Serverless.AspNetCore.FunctionApp\**\*" Exclude="src\NL.Serverless.AspNetCore.FunctionApp\**\bin\**;src\NL.Serverless.AspNetCore.FunctionApp\**\obj\**" />
-    <Content Include="src\NL.Serverless.AspNetCore.WebApp\**\*" Exclude="src\NL.Serverless.AspNetCore.WebApp\**\bin\**;src\NL.Serverless.AspNetCore.WebApp\**\obj\**" />
+    <Content Include="src\Your.New.ProjectName.sln" />
+    <Content Include="src\Your.New.ProjectName.FunctionApp\**\*" Exclude="src\Your.New.ProjectName.FunctionApp\**\bin\**;src\Your.New.ProjectName.FunctionApp\**\obj\**" />
+    <Content Include="src\Your.New.ProjectName.WebApp\**\*" Exclude="src\Your.New.ProjectName.WebApp\**\bin\**;src\Your.New.ProjectName.WebApp\**\obj\**" />
     <Compile Remove="**\*" />
   </ItemGroup>
 
