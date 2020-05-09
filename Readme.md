@@ -4,7 +4,7 @@ This repo provides code for hosting an AspNet Core App inside an Azure Function 
 I combined the solution of <a href="https://github.com/NicklausBrain">NicklausBrain</a> (original repo can be found <a href="https://github.com/NicklausBrain/serverless-core-api">here</a>) with the <a href="https://docs.microsoft.com/en-US/azure/azure-functions/functions-dotnet-dependency-injection">DI support for azure functions</a>. This provides a way to avoid initalizing the AspNet Core App with every incoming request.
 
 ## Prerequisites
-1. .Net Core SDK 3.1.100
+1. .Net Core SDK >= 3.1.100
 2. Azure Function Core Tools v3
 ```
 npm install -g azure-function-core-tools@3
