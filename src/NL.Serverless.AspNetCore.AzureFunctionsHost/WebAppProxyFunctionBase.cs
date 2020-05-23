@@ -23,7 +23,7 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
             HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("WebHostFunction is processing a request.");
+            log.LogInformation("WebAppProxyFunction is processing a request.");
 
             try
             {
