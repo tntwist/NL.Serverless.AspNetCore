@@ -161,7 +161,7 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
 
         /// <summary>
         /// Creates the configuration for the ASP.Net Core application.
-        /// Override this if your want to add other configuration sources.
+        /// Override this if you want to add other configuration sources.
         /// </summary>
         /// <param name="hostEnvironment">HostingEnvironment of the ASP.Net Core Applicationen</param>
         /// <returns>IConfiguration for the ASP.Net Core application</returns>
