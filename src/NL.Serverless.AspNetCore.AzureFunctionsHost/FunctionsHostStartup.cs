@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
 using System;
 using System.Collections.Generic;
@@ -161,7 +162,7 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
 
         /// <summary>
         /// Creates the configuration for the ASP.Net Core application.
-        /// Override this if your want to add other configuration sources.
+        /// Override this if you want to add other configuration sources.
         /// </summary>
         /// <param name="hostEnvironment">HostingEnvironment of the ASP.Net Core Applicationen</param>
         /// <returns>IConfiguration for the ASP.Net Core application</returns>
@@ -211,10 +212,28 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
             applicationServices.AddSingleton(config);
 
             //Logging and options.
-            applicationServices.AddLogging();
+            applicationServices.AddLogging(loggingBuilder => 
+            {
+                ConfigureLogging(loggingBuilder, config);
+            });
             applicationServices.AddOptions();
 
             return applicationServices;
+        }
+
+        /// <summary>
+        /// Adds default logging for the ASP.Net Core Application.
+        /// Override to configure logging for your usecase.
+        /// See: https://github.com/dotnet/aspnetcore/blob/f17fcfd3c80464d36cf632274ad02f04405efeba/src/DefaultBuilder/src/WebHost.cs#L194
+        /// </summary>
+        /// <param name="loggingBuilder">The logging builder</param>
+        /// <param name="config">The configuration of the ASP.Net Core Application</param>
+        protected virtual void ConfigureLogging(ILoggingBuilder loggingBuilder, IConfiguration config)
+        {
+            loggingBuilder.AddConfiguration(config.GetSection("Logging"));
+            loggingBuilder.AddConsole();
+            loggingBuilder.AddDebug();
+            loggingBuilder.AddEventSourceLogger();
         }
 
         /// <summary>
