@@ -137,15 +137,26 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
         /// <returns>IWebHostingEnvironment for the ASP.Net Core application.</returns>
         protected virtual IWebHostEnvironment CreateWebHostEnvironment(IHostEnvironment functionsHostEnvironment)
         {
-            return new FunctionsWebHostEnvironment()
+            var hostingEnv =  new FunctionsWebHostEnvironment()
             {
                 ContentRootPath = ApplicationContentRootPath,
-                WebRootPath = ApplicationWebRootPath,
                 ContentRootFileProvider = new PhysicalFileProvider(ApplicationContentRootPath),
-                WebRootFileProvider = new PhysicalFileProvider(ApplicationWebRootPath),
                 ApplicationName = typeof(TStartup).Assembly.FullName,
                 EnvironmentName = functionsHostEnvironment.EnvironmentName
             };
+
+            if (Directory.Exists(ApplicationWebRootPath)) 
+            {
+                hostingEnv.WebRootPath = ApplicationWebRootPath;
+                hostingEnv.WebRootFileProvider = new PhysicalFileProvider(ApplicationWebRootPath);
+            }
+            else 
+            {
+                // see: https://github.com/dotnet/aspnetcore/blob/f17fcfd3c80464d36cf632274ad02f04405efeba/src/Hosting/Hosting/src/Internal/HostingEnvironmentExtensions.cs#L59
+                hostingEnv.WebRootFileProvider = new NullFileProvider();
+            }
+
+            return hostingEnv;
         }
 
         /// <summary>
