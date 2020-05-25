@@ -14,14 +14,14 @@
         "language": "C#",
         "type": "project"
     },
-    "sourceName": "NL.Serverless.AspNetCore",
+    "sourceName": "Your.New.ProjectName",
     "preferNameDirectory": true,
     "primaryOutputs": [
         {
-            "path": "src/NL.Serverless.AspNetCore.FunctionApp/NL.Serverless.AspNetCore.FunctionApp.csproj"
+            "path": "src/Your.New.ProjectName.FunctionApp/Your.New.ProjectName.FunctionApp.csproj"
         },
         {
-            "path": "src/NL.Serverless.AspNetCore.WebApp/NL.Serverless.AspNetCore.WebApp.csproj"
+            "path": "src/Your.New.ProjectName.WebApp/Your.New.ProjectName.WebApp.csproj"
         }
     ]
 }
