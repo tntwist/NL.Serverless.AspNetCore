@@ -79,7 +79,7 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
 
         private IFunctionsRequestHandler BuildFunctionsRequestHandler(IFunctionsHostBuilder builder)
         {
-            IWebHostEnvironment webHostEnv;
+            FunctionsWebHostEnvironment webHostEnv;
             using (var functionsServiceProvider = builder.Services.BuildServiceProvider())
             {
                 var functionsHostingEnv = functionsServiceProvider.GetRequiredService<IHostEnvironment>();
@@ -90,6 +90,8 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
             var config = CreateConfiguration(webHostEnv);
 
             ServiceCollection applicationServices = CreateBasicApplicationServices(webHostEnv, config);
+            // Some libraries (like Microsoft.ApplicationInsights.AspNetCore) still need the deprecated hosting environment interface.
+            applicationServices.AddSingleton<Microsoft.AspNetCore.Hosting.IHostingEnvironment>(webHostEnv);
 
             // build service collection used for creating an instance of TStartup.
             var startupServices = new ServiceCollection();
@@ -136,7 +138,7 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
         /// </summary>
         /// <param name="functionsHostEnvironment">The host environment of the functions app.</param>
         /// <returns>IWebHostingEnvironment for the ASP.Net Core application.</returns>
-        protected virtual IWebHostEnvironment CreateWebHostEnvironment(IHostEnvironment functionsHostEnvironment)
+        protected virtual FunctionsWebHostEnvironment CreateWebHostEnvironment(IHostEnvironment functionsHostEnvironment)
         {
             var hostingEnv =  new FunctionsWebHostEnvironment()
             {
