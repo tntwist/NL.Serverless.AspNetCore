@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace NL.Serverless.AspNetCore.WebApp.Controllers
 {
@@ -9,16 +10,27 @@ namespace NL.Serverless.AspNetCore.WebApp.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly ILogger<ValuesController> _logger;
 
-        public ValuesController(IConfiguration configuration)
+        public ValuesController(
+            IConfiguration configuration,
+            ILogger<ValuesController> logger
+        )
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            _logger.LogTrace("TRACE");
+            _logger.LogDebug("DEBUG");
+            _logger.LogInformation("INFO");
+            _logger.LogError("ERROR");
+            _logger.LogCritical("CRITICAL");
+
             return new string[] { "value1", "value2" };
         }
 

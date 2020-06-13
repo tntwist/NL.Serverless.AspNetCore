@@ -21,6 +21,8 @@ namespace NL.Serverless.AspNetCore.WebApp
         {
             services.AddLogging();
 
+            services.AddApplicationInsightsTelemetry();
+
             services.AddMvc()
                 .AddApplicationPart(typeof(Startup).Assembly);
 
