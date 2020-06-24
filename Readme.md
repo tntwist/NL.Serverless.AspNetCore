@@ -7,7 +7,7 @@ I combined the solution of <a href="https://github.com/NicklausBrain">NicklausBr
 1. .Net Core SDK >= 3.1.100
 2. Azure Function Core Tools v3
 ```
-npm install -g azure-function-core-tools@3
+npm install -g azure-functions-core-tools@3
 ```
 
 ## Instructions
