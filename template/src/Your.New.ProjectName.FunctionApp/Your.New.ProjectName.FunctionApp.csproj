@@ -4,7 +4,7 @@
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.7" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.8" />
     <PackageReference Include="NL.Serverless.AspNetCore.AzureFunctionsHost" Version="3.0.7.2" />
   </ItemGroup>
   <ItemGroup>
