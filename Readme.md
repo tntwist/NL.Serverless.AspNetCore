@@ -29,7 +29,7 @@ In order to see the logs of the Asp.Net Core app inside the log stream of Applic
    
    ``<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />``
 
-1. Register the Applications Inisghts services in the ``Statup.cs`` of your web app
+1. Register the Applications Insights services in the ``Statup.cs`` of your web app
    ```csharp
    services.AddApplicationInsightsTelemetry();
    ```
