@@ -41,7 +41,7 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
         public FunctionsHostStartup()
         {
             // get content and web root paths for ASP.Net Core Application.
-            var startupAssemblyPath = new DirectoryInfo(Path.GetDirectoryName(typeof(TStartup).Assembly.Location)); 
+            var startupAssemblyPath = new DirectoryInfo(Path.GetDirectoryName(typeof(TStartup).Assembly.Location));
             ApplicationContentRootPath = startupAssemblyPath.Parent.FullName;
             ApplicationWebRootPath = Path.Combine(ApplicationContentRootPath, "wwwroot");
         }
@@ -52,7 +52,7 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
         /// <param name="builder"></param>
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            try 
+            try
             {
                 var functionsRequestHandler = BuildFunctionsRequestHandler(builder);
                 builder.Services.AddSingleton(functionsRequestHandler);
@@ -140,7 +140,7 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
         /// <returns>IWebHostingEnvironment for the ASP.Net Core application.</returns>
         protected virtual FunctionsWebHostEnvironment CreateWebHostEnvironment(IHostEnvironment functionsHostEnvironment)
         {
-            var hostingEnv =  new FunctionsWebHostEnvironment()
+            var hostingEnv = new FunctionsWebHostEnvironment()
             {
                 ContentRootPath = ApplicationContentRootPath,
                 ContentRootFileProvider = new PhysicalFileProvider(ApplicationContentRootPath),
@@ -148,12 +148,12 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
                 EnvironmentName = functionsHostEnvironment.EnvironmentName
             };
 
-            if (Directory.Exists(ApplicationWebRootPath)) 
+            if (Directory.Exists(ApplicationWebRootPath))
             {
                 hostingEnv.WebRootPath = ApplicationWebRootPath;
                 hostingEnv.WebRootFileProvider = new PhysicalFileProvider(ApplicationWebRootPath);
             }
-            else 
+            else
             {
                 // see: https://github.com/dotnet/aspnetcore/blob/f17fcfd3c80464d36cf632274ad02f04405efeba/src/Hosting/Hosting/src/Internal/HostingEnvironmentExtensions.cs#L59
                 hostingEnv.WebRootFileProvider = new NullFileProvider();
@@ -214,7 +214,7 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
             applicationServices.AddSingleton(config);
 
             //Logging and options.
-            applicationServices.AddLogging(loggingBuilder => 
+            applicationServices.AddLogging(loggingBuilder =>
             {
                 ConfigureLogging(loggingBuilder, config);
             });

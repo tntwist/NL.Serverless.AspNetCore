@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NL.Serverless.AspNetCore.WebApp.ORM;
 
 namespace NL.Serverless.AspNetCore.WebApp.Controllers
 {
@@ -11,14 +13,17 @@ namespace NL.Serverless.AspNetCore.WebApp.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<ValuesController> _logger;
+        private readonly WebAppDbContext _dbContext;
 
         public ValuesController(
             IConfiguration configuration,
-            ILogger<ValuesController> logger
+            ILogger<ValuesController> logger,
+            WebAppDbContext dbContext
         )
         {
             _configuration = configuration;
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         // GET api/values
@@ -31,7 +36,11 @@ namespace NL.Serverless.AspNetCore.WebApp.Controllers
             _logger.LogError("ERROR");
             _logger.LogCritical("CRITICAL");
 
-            return new string[] { "value1", "value2" };
+            var result = _dbContext.ValueEntries
+                .Select(v => v.Value)
+                .ToList();
+
+            return result;
         }
 
         // GET api/values/5
