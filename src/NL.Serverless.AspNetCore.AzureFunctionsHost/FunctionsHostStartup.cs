@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -23,7 +22,7 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
     /// Configures and builds the Asp.Net Core application behind TStartup.
     /// </summary>
     /// <typeparam name="TStartup">Startup class of the ASP.Net Core application.</typeparam>
-    public abstract class FunctionsHostStartup<TStartup> : FunctionsStartup where TStartup : class
+    public class FunctionsHostStartup<TStartup> where TStartup : class
     {
         /// <summary>
         /// Path to the content root of the Asp.Net Core Application.
@@ -49,13 +48,13 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
         /// <summary>
         /// Configures the ASP.Net Core application behind TStartup and registers an <see cref="IFunctionsRequestHandler" /> to the FunctionsHostBuilder.
         /// </summary>
-        /// <param name="builder"></param>
-        public override void Configure(IFunctionsHostBuilder builder)
+        /// <param name="services"></param>
+        public void Configure(IServiceCollection services)
         {
             try
             {
-                var functionsRequestHandler = BuildFunctionsRequestHandler(builder);
-                builder.Services.AddSingleton(functionsRequestHandler);
+                var functionsRequestHandler = BuildFunctionsRequestHandler(services);
+                services.AddSingleton(functionsRequestHandler);
             }
             catch (Exception e)
             {
@@ -77,10 +76,11 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
             }
         }
 
-        private IFunctionsRequestHandler BuildFunctionsRequestHandler(IFunctionsHostBuilder builder)
+        private IFunctionsRequestHandler BuildFunctionsRequestHandler(IServiceCollection services)
         {
             FunctionsWebHostEnvironment webHostEnv;
-            using (var functionsServiceProvider = builder.Services.BuildServiceProvider())
+            Console.WriteLine("HALLLLLLOOOO");
+            using (var functionsServiceProvider = services.BuildServiceProvider())
             {
                 var functionsHostingEnv = functionsServiceProvider.GetRequiredService<IHostEnvironment>();
 
