@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -117,7 +118,16 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
             // if the ConfigureService method returns a ServiceProvider we use this provider for the application. If not, we build it :)
             var applicationServiceProvider = configureServicesResult as IServiceProvider ?? applicationServices.BuildServiceProvider();
 
-            var applicationBuilder = new ApplicationBuilder(applicationServiceProvider, new FeatureCollection());
+            ApplicationBuilder applicationBuilder = new ApplicationBuilder(applicationServiceProvider, new FeatureCollection());
+
+            applicationBuilder.Use(async (context, next) =>
+            {
+                // Removes routing values from function host.
+                // Fixes context.GetRouteData() resolving function routing values instead of web app routing values.
+                // See https://github.com/tntwist/NL.Serverless.AspNetCore/issues/32
+                context.Features.Set<IRoutingFeature>(null);
+                await next.Invoke();
+            });
 
             var configureMethod = startupMethods
                 .SingleOrDefault(mi => string.Equals(mi.Name, "Configure", StringComparison.InvariantCulture));
