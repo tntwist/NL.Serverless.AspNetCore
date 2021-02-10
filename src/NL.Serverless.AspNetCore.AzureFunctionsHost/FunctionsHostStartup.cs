@@ -79,7 +79,6 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
         private IFunctionsRequestHandler BuildFunctionsRequestHandler(IServiceCollection services)
         {
             FunctionsWebHostEnvironment webHostEnv;
-            Console.WriteLine("HALLLLLLOOOO");
             using (var functionsServiceProvider = services.BuildServiceProvider())
             {
                 var functionsHostingEnv = functionsServiceProvider.GetRequiredService<IHostEnvironment>();

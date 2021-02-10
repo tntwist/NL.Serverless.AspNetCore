@@ -25,7 +25,7 @@ namespace NL.Serverless.AspNetCore.FunctionApp
                 {
                     b.UseFunctionExecutionMiddleware();
                 })
-                .ConfigureServices(services => 
+                .ConfigureServices(services =>
                 {
                     var webAppStartup = new FunctionsHostStartup<WebApp.Startup>();
                     webAppStartup.Configure(services);

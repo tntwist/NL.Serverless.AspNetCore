@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Pipeline;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -23,7 +24,9 @@ namespace NL.Serverless.AspNetCore.FunctionApp
            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "put", "patch", "delete", "options", Route = null)] HttpRequest req,
             FunctionExecutionContext executionContext)
         {
-            return await ProcessRequestAsync(req, executionContext.Logger);
+
+            return new OkResult();
+            //return await ProcessRequestAsync(req, executionContext.Logger);
         }
     }
 }
