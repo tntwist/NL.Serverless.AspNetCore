@@ -13,6 +13,8 @@ namespace NL.Serverless.AspNetCore.FunctionApp
     /// </summary>
     public class WebAppProxyFunction : WebAppProxyFunctionBase
     {
+        private static HttpClient _client;
+
         public WebAppProxyFunction(IFunctionsRequestHandler requestHandler) : base(requestHandler)
         {
         }
@@ -22,12 +24,14 @@ namespace NL.Serverless.AspNetCore.FunctionApp
            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "put", "patch", "delete", "options", Route = "{*any}")] HttpRequestData req,
             FunctionContext context)
         {
-
-            var factory = new WebApplicationFactory<WebApp.Startup>();
-            var client = factory.CreateClient(new WebApplicationFactoryClientOptions 
+            if(_client == null) 
             {
-                AllowAutoRedirect = false
-            });
+                var factory = new WebApplicationFactory<WebApp.Startup>();
+                _client = factory.CreateClient(new WebApplicationFactoryClientOptions 
+                {
+                    AllowAutoRedirect = false
+                });
+            }
 
             var requestMessage = new HttpRequestMessage
             {
@@ -46,7 +50,7 @@ namespace NL.Serverless.AspNetCore.FunctionApp
                 .ToList()
                 .ForEach(header => requestMessage.Content.Headers.Add(header.Key, header.Value));
 
-            var reponseMessage = await client.SendAsync(requestMessage);
+            var reponseMessage = await _client.SendAsync(requestMessage);
 
             var result = req.CreateResponse(reponseMessage.StatusCode);
 
