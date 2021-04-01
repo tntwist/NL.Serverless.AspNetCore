@@ -8,22 +8,12 @@
     <Authors>Nico Lachmuth</Authors>
     <Description>Host an ASP.Net Core application inside an Azure Functions V3 App.</Description>
     <PackageTags>aspnet-core;azure;serverless;cloud;aspnet;functions</PackageTags>
-
     <Copyright>Nico Lachmuth ©2020</Copyright>
     <RepositoryType>GIT</RepositoryType>
     <PackageProjectUrl>https://github.com/tntwist/NL.Serverless.AspNetCore</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://avatars1.githubusercontent.com/u/6589385?s=400&amp;u=96994306a87b88973443ecf524ebbbb764b776de&amp;v=4</PackageIconUrl>
     <RepositoryUrl>https://github.com/tntwist/NL.Serverless.AspNetCore</RepositoryUrl>
-  </PropertyGroup>
-
-  <!-- Pack settings -->
-  <PropertyGroup>
-    <NoPackageAnalysis>true</NoPackageAnalysis>
-    <NuspecFile>NL.Serverless.AspNetCore.AzureFunctionsHost.nuspec</NuspecFile>
-    <IntermediatePackDir>$(MSBuildProjectDirectory)/bin/$(Configuration)/</IntermediatePackDir>
-    <PublishDir>$(IntermediatePackDir)$(TargetFramework)/</PublishDir>
-    <NuspecProperties>publishDir=$([MSBuild]::NormalizeDirectory($(IntermediatePackDir)))</NuspecProperties>
   </PropertyGroup>
 
   <ItemGroup>
