@@ -22,48 +22,6 @@ namespace NL.Serverless.AspNetCore.FunctionApp
            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "put", "patch", "delete", "options", Route = "{*any}")] HttpRequestData req,
             FunctionContext context)
         {
-            //if(_client == null) 
-            //{
-            //    var factory = new WebApplicationFactory<WebApp.Startup>();
-            //    _client = factory.CreateClient(new WebApplicationFactoryClientOptions 
-            //    {
-            //        AllowAutoRedirect = false
-            //    });
-            //}
-
-            //var requestMessage = new HttpRequestMessage
-            //{
-            //    Method = new HttpMethod(req.Method),
-            //    Content = new StreamContent(req.Body),
-            //    RequestUri = req.Url
-            //};
-
-            //// add non content headers to request message
-            //req.Headers.Where(x => !x.Key.Contains("Content", System.StringComparison.OrdinalIgnoreCase))
-            //    .ToList()
-            //    .ForEach(header => requestMessage.Headers.Add(header.Key, header.Value));
-
-            //// add content headers to request content
-            //req.Headers.Where(x => x.Key.Contains("Content", System.StringComparison.OrdinalIgnoreCase))
-            //    .ToList()
-            //    .ForEach(header => requestMessage.Content.Headers.Add(header.Key, header.Value));
-
-            //var reponseMessage = await _client.SendAsync(requestMessage);
-
-            //var result = req.CreateResponse(reponseMessage.StatusCode);
-
-            //var resultBytes = await reponseMessage.Content.ReadAsByteArrayAsync();
-            //result.WriteBytes(resultBytes);
-
-            //foreach(var header in reponseMessage.Content.Headers) 
-            //{
-            //    result.Headers.Add(header.Key, header.Value);
-            //}
-            //foreach (var header in reponseMessage.Headers)
-            //{
-            //    result.Headers.Add(header.Key, header.Value);
-            //}
-
             return await ProcessRequestAsync(req, context.GetLogger<WebAppProxyFunction>());
         }
     }
