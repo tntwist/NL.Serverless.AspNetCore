@@ -6,7 +6,7 @@
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
     <OutputType>Exe</OutputType>
     <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
-    <Version>3.0.9</Version>
+    <Version>5.0.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,8 +20,6 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage" Version="4.0.4" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.0.1" OutputItemType="Analyzer" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,16 +35,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
-  </ItemGroup>
-
-  <!--<Target Name="CleanUpFunctionHostTarget" AfterTargets="AfterBuild">
-    <ItemGroup>
-      <RazorViewDlls Include="$(OutDir)*.Views.dll" />
-      <RazorViewPdbs Include="$(OutDir)*.Views.pdb" />
-      <Executables Include="$(OutDir)*.exe" />
-    </ItemGroup>
-    <Move SourceFiles="@(RazorViewDlls)" DestinationFiles="@(RazorViewDlls->'$(OutDir)bin\%(Filename)%(Extension)')" />
-    <Move SourceFiles="@(RazorViewPdbs)" DestinationFiles="@(RazorViewPdbs->'$(OutDir)bin\%(Filename)%(Extension)')" />
-    <Delete Files="@(Executables)"></Delete>
-  </Target>-->
+  </ItemGroup> 
 </Project>
