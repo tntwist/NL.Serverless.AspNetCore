@@ -1,11 +1,10 @@
 # NL.Serverless.AspNetCore
-This repo provides code for hosting an AspNet Core App inside an Azure Function V3 HTTP Trigger without the use of TestServer.
-
-I combined the solution of <a href="https://github.com/NicklausBrain">NicklausBrain</a> (original repo can be found <a href="https://github.com/NicklausBrain/serverless-core-api">here</a>) with the <a href="https://docs.microsoft.com/en-US/azure/azure-functions/functions-dotnet-dependency-injection">DI support for azure functions</a>. This provides a way to avoid initalizing the AspNet Core App with every incoming request.
+This repo provides code for hosting an AspNet Core App inside an Azure Function V3 HTTP Trigger with the new isolated worker.
 
 ## Prerequisites
-1. .Net Core SDK >= 3.1.100
-2. Azure Function Core Tools v3
+1. Will to use the new isolated dotnet worker for functions (see the [repo](https://github.com/Azure/azure-functions-dotnet-worker))
+1. .Net Core SDK >= 5.0.4
+1. Latest Azure Function Core Tools v3
 ```
 npm install -g azure-functions-core-tools@3
 ```
@@ -22,12 +21,16 @@ dotnet new serverless-aspnetcore -n Your.New.ProjectName
 func host start -build
 ```
 
+## Quirks
+SignalR currently only works with Long Pooling.
+Either connect with this transport method client side or configure your Hubs to just support Long Pooling (see [here](https://docs.microsoft.com/de-de/aspnet/core/signalr/configuration?view=aspnetcore-5.0&tabs=dotnet#advanced-http-configuration-options)).
+
 ## Application Insights / Logs
 In order to see the logs of the Asp.Net Core app inside the log stream of Application Insights from the functions app you need to add the following lines:
 
 1. Add the package reference of ``Microsoft.ApplicationInsights.AspNetCore`` to the .csproj of your web app
    
-   ``<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />``
+   ``<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.17.0" />``
 
 1. Register the Applications Insights services in the ``Statup.cs`` of your web app
    ```csharp
