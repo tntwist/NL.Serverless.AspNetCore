@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using NL.Serverless.AspNetCore.AzureFunctionsHost;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -25,26 +26,38 @@ namespace NL.Serverless.AspNetCore.FunctionApp
             var factory = new WebApplicationFactory<WebApp.Startup>();
             var client = factory.CreateClient();
 
-            var message = new HttpRequestMessage();
-            foreach (var header in req.Headers)
+            var requestMessage = new HttpRequestMessage
             {
-                message.Headers.Add(header.Key, header.Value);
-            }
+                Method = new HttpMethod(req.Method),
+                Content = new StreamContent(req.Body),
+                RequestUri = req.Url
+            };
 
-            message.Method = new HttpMethod(req.Method);
-            message.Content = new StreamContent(req.Body);
-            message.RequestUri = req.Url;
+            // add non content headers to request message
+            req.Headers.Where(x => !x.Key.Contains("Content", System.StringComparison.OrdinalIgnoreCase))
+                .ToList()
+                .ForEach(header => requestMessage.Headers.Add(header.Key, header.Value));
 
-            var resultMessage = await client.SendAsync(message);
+            // add content headers to request content
+            req.Headers.Where(x => x.Key.Contains("Content", System.StringComparison.OrdinalIgnoreCase))
+                .ToList()
+                .ForEach(header => requestMessage.Content.Headers.Add(header.Key, header.Value));
 
-            var result = req.CreateResponse(resultMessage.StatusCode);
-            foreach(var header in resultMessage.Headers) 
+            var reponseMessage = await client.SendAsync(requestMessage);
+
+            var result = req.CreateResponse(reponseMessage.StatusCode);
+
+            var resultBytes = await reponseMessage.Content.ReadAsByteArrayAsync();
+            result.WriteBytes(resultBytes);
+
+            foreach(var header in reponseMessage.Content.Headers) 
             {
                 result.Headers.Add(header.Key, header.Value);
             }
-
-            var resultBytes = await resultMessage.Content.ReadAsByteArrayAsync();
-            result.WriteBytes(resultBytes);
+            foreach (var header in reponseMessage.Headers)
+            {
+                result.Headers.Add(header.Key, header.Value);
+            }
 
             return result;
             //return await ProcessRequestAsync(req, executionContext.Logger);
