@@ -1,11 +1,8 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Pipeline;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
+using Microsoft.Azure.Functions.Worker.Http;
 using NL.Serverless.AspNetCore.AzureFunctionsHost;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NL.Serverless.AspNetCore.FunctionApp
@@ -19,13 +16,37 @@ namespace NL.Serverless.AspNetCore.FunctionApp
         {
         }
 
-        [FunctionName("WebAppProxyFunction")]
-        public async Task<IActionResult> Run(
-           [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "put", "patch", "delete", "options", Route = null)] HttpRequest req,
-            FunctionExecutionContext executionContext)
+        [Function("WebAppProxyFunction")]
+        public async Task<HttpResponseData> Run(
+           [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "put", "patch", "delete", "options", Route = "{*any}")] HttpRequestData req,
+            FunctionContext context)
         {
 
-            return new OkResult();
+            var factory = new WebApplicationFactory<WebApp.Startup>();
+            var client = factory.CreateClient();
+
+            var message = new HttpRequestMessage();
+            foreach (var header in req.Headers)
+            {
+                message.Headers.Add(header.Key, header.Value);
+            }
+
+            message.Method = new HttpMethod(req.Method);
+            message.Content = new StreamContent(req.Body);
+            message.RequestUri = req.Url;
+
+            var resultMessage = await client.SendAsync(message);
+
+            var result = req.CreateResponse(resultMessage.StatusCode);
+            foreach(var header in resultMessage.Headers) 
+            {
+                result.Headers.Add(header.Key, header.Value);
+            }
+
+            var resultBytes = await resultMessage.Content.ReadAsByteArrayAsync();
+            result.WriteBytes(resultBytes);
+
+            return result;
             //return await ProcessRequestAsync(req, executionContext.Logger);
         }
     }

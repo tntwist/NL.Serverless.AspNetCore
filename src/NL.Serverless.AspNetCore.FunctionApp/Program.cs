@@ -1,11 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using System.Diagnostics;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Azure.Functions.Worker.Configuration;
-using Microsoft.Azure.Functions.Worker.Pipeline;
 using NL.Serverless.AspNetCore.AzureFunctionsHost;
+using Microsoft.AspNetCore.Hosting;
 
 namespace NL.Serverless.AspNetCore.FunctionApp
 {
@@ -17,14 +13,7 @@ namespace NL.Serverless.AspNetCore.FunctionApp
             //            Debugger.Launch();
             //#endif
             var host = new HostBuilder()
-                .ConfigureAppConfiguration(c =>
-                {
-                    c.AddCommandLine(args);
-                })
-                .ConfigureFunctionsWorker((c, b) =>
-                {
-                    b.UseFunctionExecutionMiddleware();
-                })
+                .ConfigureFunctionsWorkerDefaults()
                 .ConfigureServices(services =>
                 {
                     var webAppStartup = new FunctionsHostStartup<WebApp.Startup>();
