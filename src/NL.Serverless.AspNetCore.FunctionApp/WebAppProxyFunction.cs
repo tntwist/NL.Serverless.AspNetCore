@@ -24,7 +24,10 @@ namespace NL.Serverless.AspNetCore.FunctionApp
         {
 
             var factory = new WebApplicationFactory<WebApp.Startup>();
-            var client = factory.CreateClient();
+            var client = factory.CreateClient(new WebApplicationFactoryClientOptions 
+            {
+                AllowAutoRedirect = false
+            });
 
             var requestMessage = new HttpRequestMessage
             {

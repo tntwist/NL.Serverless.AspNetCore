@@ -67,5 +67,11 @@ namespace NL.Serverless.AspNetCore.WebApp.Controllers
         public void Delete(int id)
         {
         }
+
+        [HttpGet("test")]
+        public IActionResult Test() 
+        {
+            return Redirect("https://www.test.de");
+        }
     }
 }
