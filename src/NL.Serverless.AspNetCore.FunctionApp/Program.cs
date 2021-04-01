@@ -14,11 +14,7 @@ namespace NL.Serverless.AspNetCore.FunctionApp
             //#endif
             var host = new HostBuilder()
                 .ConfigureFunctionsWorkerDefaults()
-                .ConfigureServices(services =>
-                {
-                    var webAppStartup = new FunctionsHostStartup<WebApp.Startup>();
-                    webAppStartup.Configure(services);
-                })
+                .ConfigureWebAppFunctionHost<WebApp.Startup>()
                 .Build();
 
             await host.RunAsync();

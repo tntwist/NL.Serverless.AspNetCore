@@ -68,8 +68,8 @@ namespace NL.Serverless.AspNetCore.WebApp.Controllers
         {
         }
 
-        [HttpGet("test")]
-        public IActionResult Test() 
+        [HttpGet("redirectTest")]
+        public IActionResult RedirectTest() 
         {
             return Redirect("https://www.test.de");
         }
