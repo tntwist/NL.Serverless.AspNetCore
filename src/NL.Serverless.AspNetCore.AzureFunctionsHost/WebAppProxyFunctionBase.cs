@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -19,25 +18,22 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
             _requestHandler = requestHandler;
         }
 
-        protected virtual async Task<IActionResult> ProcessRequestAsync(
-            HttpRequest req,
+        protected virtual async Task<HttpResponseData> ProcessRequestAsync(
+            HttpRequestData req,
             ILogger log)
         {
             log.LogInformation("WebAppProxyFunction is processing a request.");
 
             try
             {
-                await _requestHandler.HandleRequestAsync(req);
+                return await _requestHandler.HandleRequestAsync(req);
             }
             catch (Exception e)
             {
                 // logs details of exceptions occuring in the web app.
                 log.LogError(e.ToString());
-                throw e;
+                throw;
             }
-
-            // return dummy result since request is handled by the web app.
-            return new EmptyResult();
         }
     }
 }

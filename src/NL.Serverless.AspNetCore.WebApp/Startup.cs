@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NL.Serverless.AspNetCore.WebApp.Hubs;
+using NL.Serverless.AspNetCore.WebApp.Middelwares;
+using NL.Serverless.AspNetCore.WebApp.ORM;
 
 namespace NL.Serverless.AspNetCore.WebApp
 {
@@ -40,10 +43,12 @@ namespace NL.Serverless.AspNetCore.WebApp
             services.AddSignalR();
 
             services.AddOpenApiDocument();
+
+            services.AddDbContext<WebAppDbContext>(options => options.UseInMemoryDatabase("WebAppDb"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebAppDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -65,12 +70,16 @@ namespace NL.Serverless.AspNetCore.WebApp
             app.UseRouting();
             app.UseCors("CorsPolicy");
 
+            app.UseMiddleware<TestMiddleware>();
+
             app.UseEndpoints(options => 
             {
                 options.MapDefaultControllerRoute();
                 options.MapRazorPages();
                 options.MapHub<TestHub>("/testhub");
             });
+
+            DataSeeder.Seed(dbContext);
         }
     }
 }
