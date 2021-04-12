@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>3.0.11</PackageVersion>
+    <PackageVersion>5.0.0</PackageVersion>
     <PackageId>NL.Serverless.AspNetCore.Template</PackageId>
     <Title>Serverless AspNet Core Template</Title>
     <Authors>Nico Lachmuth</Authors>
@@ -27,6 +27,10 @@
     <Content Include="src\Your.New.ProjectName.FunctionApp\**\*" Exclude="src\Your.New.ProjectName.FunctionApp\**\bin\**;src\Your.New.ProjectName.FunctionApp\**\obj\**" />
     <Content Include="src\Your.New.ProjectName.WebApp\**\*" Exclude="src\Your.New.ProjectName.WebApp\**\bin\**;src\Your.New.ProjectName.WebApp\**\obj\**" />
     <Compile Remove="**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="src\Your.New.ProjectName.FunctionApp\local.settings.json" />
   </ItemGroup>
 
 </Project>
