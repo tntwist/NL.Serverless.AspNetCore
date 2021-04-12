@@ -1,8 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using NL.Serverless.AspNetCore.AzureFunctionsHost;
 using System.Threading.Tasks;
 
@@ -17,12 +14,12 @@ namespace Your.New.ProjectName.FunctionApp
         {
         }
 
-        [FunctionName("WebAppProxyFunction")]
-        public async Task<IActionResult> Run(
-           [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "put", "patch", "delete", "options", Route = "{*any}")] HttpRequest req,
-           ILogger log)
+        [Function("WebAppProxyFunction")]
+        public async Task<HttpResponseData> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "put", "patch", "delete", "options", Route = "{*any}")] HttpRequestData req,
+            FunctionContext context)
         {
-            return await ProcessRequestAsync(req, log);
+            return await ProcessRequestAsync(req, context.GetLogger<WebAppProxyFunction>());
         }
     }
 }

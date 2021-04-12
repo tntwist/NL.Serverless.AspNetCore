@@ -29,4 +29,8 @@
     <Compile Remove="**\*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="src\Your.New.ProjectName.FunctionApp\local.settings.json" />
+  </ItemGroup>
+
 </Project>
