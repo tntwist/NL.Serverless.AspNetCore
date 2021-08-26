@@ -12,9 +12,9 @@ namespace NL.Serverless.AspNetCore.AzureFunctionsHost
         {
             try 
             {
-                var factory = new WebApplicationFactory<TStartup>();
+                var factory = new FunctionsWebApplicationFactory<TStartup>();
                 var client = factory.CreateClient(new WebApplicationFactoryClientOptions
-                {
+                {                    
                     AllowAutoRedirect = false
                 });
 
