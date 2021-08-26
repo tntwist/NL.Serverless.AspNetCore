@@ -21,6 +21,15 @@ dotnet new serverless-aspnetcore -n Your.New.ProjectName
 func host start -build
 ```
 
+## Deployment to Azure
+1. Follow this instruction: https://github.com/Azure/azure-functions-dotnet-worker#create-the-azure-resources
+2. Create an app setting within the function app.
+   
+   The name of the setting should be ``ASPNETCORE_TEST_CONTENTROOT_NAME_OF_YOUR_WEBAPP_ASSEMBLY`` and point the value to ``C:\home\site\wwwroot\``
+   
+   ![image](https://user-images.githubusercontent.com/6589385/131023539-7bb32c8d-4f47-4998-bf40-572299fc4836.png)
+
+
 ## Quirks
 SignalR currently only works with Long Pooling.
 Either connect with this transport method client side or configure your Hubs to just support Long Pooling (see [here](https://docs.microsoft.com/de-de/aspnet/core/signalr/configuration?view=aspnetcore-5.0&tabs=dotnet#advanced-http-configuration-options)).
