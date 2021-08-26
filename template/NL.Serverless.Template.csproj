@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>5.0.0</PackageVersion>
+    <PackageVersion>5.1.0</PackageVersion>
     <PackageId>NL.Serverless.AspNetCore.Template</PackageId>
     <Title>Serverless AspNet Core Template</Title>
     <Authors>Nico Lachmuth</Authors>
@@ -13,7 +13,7 @@
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
-    <Copyright>Nico Lachmuth ©2020</Copyright>
+    <Copyright>Nico Lachmuth ©2021</Copyright>
     <RepositoryType>GIT</RepositoryType>
     <PackageProjectUrl>https://github.com/tntwist/NL.Serverless.AspNetCore</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

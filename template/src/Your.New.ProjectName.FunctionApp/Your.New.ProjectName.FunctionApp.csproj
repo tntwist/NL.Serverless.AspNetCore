@@ -15,11 +15,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Abstractions" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.0.12" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.0.13" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage" Version="4.0.4" />
-    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.0.1" OutputItemType="Analyzer" />
-    <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.0.0" />
-    <PackageReference Include="NL.Serverless.AspNetCore.AzureFunctionsHost" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.0.4" OutputItemType="Analyzer" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.5.1" />
+    <PackageReference Include="NL.Serverless.AspNetCore.AzureFunctionsHost" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>
