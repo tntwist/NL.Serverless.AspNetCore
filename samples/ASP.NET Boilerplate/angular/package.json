@@ -53,7 +53,7 @@
     "js-cookie": "^2.1.4",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
-    "moment-timezone": "^0.5.13",
+    "moment-timezone": "^0.5.35",
     "morris.js": "^0.5.0",
     "ngx-bootstrap": "^5.1.1",
     "ngx-pagination": "^4.1.0",
